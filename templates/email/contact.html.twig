@@ -2,10 +2,11 @@
 
 {% block title %}
 
-<table class="class table">
+<table class=" table table-bordered">
 
 
 <tr>
+<td>Prenom</td>
 <td> {{ contact.prenom }}</td>
 </tr>
 <tr>
@@ -14,8 +15,17 @@
 <tr>
 <td> {{ contact.contenu }}</td>
 </tr>
-
 </table>
+{% for message in app.flashes('success') %}
+
+<div class="col-md-5 mx-auto alert-success text-center">
+
+    {{ message }}
+
+</div>
+    
+{% endfor %}
+
 
 
 {% endblock %}

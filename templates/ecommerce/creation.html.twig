@@ -1,0 +1,67 @@
+{% extends "base.html.twig" %}
+
+
+
+
+{% if app.user %}
+
+
+
+    {% block title %}
+
+    Création/Modification
+
+    {% endblock %}
+
+    {% block body %}
+
+    <h1>
+
+        {% if editMode %}
+        Modification de l'article
+        {% else %}
+        Création d'un article
+        {% endif %}
+
+    </h1>
+
+    {{ form_start(formProduit) }}
+
+    {{ form_row(formProduit.nom, {
+        'label': "Titre",
+        'attr':{
+            'placeholder': "Titre du produit"
+        }
+    }) }}
+    {{ form_row(formProduit.imageFile) }}
+    {{ form_row(formProduit.description, {
+        'label': "Contenu",
+        'attr':{
+            'placeholder': "description du produit"
+        }
+    }) }}
+
+    {{ form_row(formProduit.prix) }}
+    {{ form_row(formProduit.categorie) }}
+
+
+    <button type="submit" class="btn btn-dark mt-2">
+
+        {% if editMode %}
+        Enregistrer les Modification
+        {% else %}
+        Créer un nouvel article
+        {% endif %}
+
+    </button>
+
+    {{form_end(formProduit) }}
+
+
+    {% endblock %}
+
+{% else %}
+    
+    return $this->redirecToRoute
+
+{% endif %}

@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\ProduitRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
+#[Vich\Uploadable]
 class Produit
 {
     #[ORM\Id]
@@ -16,16 +23,24 @@ class Produit
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message:"Veuillez ajouter un nom à votre article")]
     private $nom;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message:"Veuillez ajouter une description")]
     private $description;
 
     #[ORM\Column(type: 'float')]
+    #[Assert\NotBlank(message:"Veuillez ajouter un prix")]
     private $prix;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message:"Veuillez ajouter une image")]
     private $image;
+
+    #[Vich\UploadableField(mapping: "produits_image", fileNameProperty: "image")]
+    #[Assert\NotBlank(message:"Veuillez ajouter une image")]
+    private $imageFile;
 
     #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: 'produits')]
     private $categorie;
@@ -87,7 +102,7 @@ class Produit
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
@@ -147,4 +162,18 @@ class Produit
 
         return $this;
     }
-}
+
+    public function getImageFile(): ?File 
+    {
+        return $this->imageFile; 
+    }
+         
+          
+        public function setImageFile(?File $imageFile = null): self 
+        {
+        $this->imageFile = $imageFile;
+        return $this; 
+        }
+      
+    }
+

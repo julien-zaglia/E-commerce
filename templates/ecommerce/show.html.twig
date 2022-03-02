@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{produit.nom}} {% endblock %}
+
+{% block body %}
+
+    <section class="row articles">
+
+        <article class="col-md-6 mx-auto text-center border border-dark mb-3 p-3 mt-3 mr-1">
+
+            <h2> {{ produit.nom }}</h2>
+
+            <div class="speProduit">
+                Catégorie: {{ produit.categorie.titre}}</div>
+            <hr>
+            <div class="content">
+                <img src="{{ asset('images/articles/' ~ produit.image) }}" alt="" class="col-md-12">
+                Description: {{ produit.description|raw}}
+                <h3>{{ produit.prix}}€ </h3>
+            </div>
+
+        </article>
+
+    </section>
+
+{% endblock %}

@@ -1,24 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit{% endblock %}
+
+{% block title %}Liste des articles{% endblock %}
 
 {% block body %}
 
-<section class="articles">
-    <article>
-        <h2>Titre de l'article</h2>
-        <div class="metadata"> Ecrit le on s'en tape </div>
+{# {{ form(rechercheForm) }} #}
 
-        <div class="content">
-            <img src="" alt="">
-            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore officia ducimus itaque earum totam quibusdam error velit odit porro dicta! Expedita ad aut totam ipsa. In repellendus soluta architecto odio? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Saepe harum excepturi, odio minima praesentium facere, obcaecati enim doloremque nam non cupiditate? Neque deserunt, sit dolorum iste dolor optio! Animi, totam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia vero qui beatae facilis ducimus dolore perferendis, sunt, consectetur dolores reprehenderit obcaecati enim voluptates. Incidunt, tempora temporibus consectetur dignissimos alias nostrum?</p>
+<h1> Liste des articles</h1>
+<hr>
+<a class="btn btn-dark mt-2" href="{{ path('new_produit') }}">Créer un nouvel article</a>
+<section class="row articles">
 
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus alias molestiae suscipit nesciunt quaerat placeat voluptatibus aperiam libero dolorum accusamus recusandae tempore cumque sunt, tempora omnis enim ab quam ipsum?</p>
+    {% for produit in produits %}
 
-            <a href="#" class="btn btn-primary"> Lire la suite</a>
-        
-        </div>
-    </article>
+        <article class="col-md-4 mx-auto text-center border border-dark mb-3 p-3 mt-3 mr-1">
+
+            <h2>{{ produit.nom }}</h2>
+
+            <div class="speProduit">
+
+                Catégorie: {{produit.categorie.titre }} {# TITRE #}
+                <hr>
+
+            </div>
+            <div class="content">
+
+                <img src="{{ asset('images/articles/'~ produit.image )}}" alt=""></br> {# IMAGE #}
+                {{produit.description|raw }} {# DESCRIPTION #}</br>
+                <a href="{{ path('show', {'id': produit.id}) }}"> Lire la suite </a></br></br>
+                <h3>{{produit.prix|raw }} € </h3>{# PRIX #}
+                
+                {# { <a href="{{ path('blog_show', {'id': produit.id}) }}"> Lire la suite </a>  #}
+                
+            </div>
+        </article>
+
+    {% endfor %}
+
 </section>
 
 {% endblock %}
