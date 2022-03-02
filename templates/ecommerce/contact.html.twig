@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Contact
+
+{% endblock %}
+
+{% block body %}
+
+   {% for message in app.flashes('success') %} 
+   <div class="alert alert-success">{{ message }}</div>
+
+   {% endfor %}
+ {# Je vais afficher tous les messages flash se trouvant à la clé "success" #}
+ {# après l'affichage, chacun des messages flash est détruit #}
+    {{ form_start(formContact) }}
+    
+    {{ form_row(formContact.nom) }}
+    {{ form_row(formContact.prenom) }}
+    {{ form_row(formContact.email) }}
+    {{ form_row(formContact.contenu) }}
+
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+
+
+    {{ form_end(formContact) }}
+
+{% endblock %}
