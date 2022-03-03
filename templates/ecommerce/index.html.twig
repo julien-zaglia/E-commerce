@@ -5,7 +5,7 @@
 
 {% block body %}
 
-{# {{ form(rechercheForm) }} #}
+{{ form(RechercheForm) }} 
 
 <h1> Liste des articles</h1>
 <hr>
@@ -26,7 +26,7 @@
             </div>
             <div class="content">
 
-                <img src="{{ asset('images/articles/'~ produit.image )}}" alt=""></br> {# IMAGE #}
+                <img class="img-thumbnail" style="height: 350px; max-width:300px;" src="{{ asset('images/produits/'~ produit.image )}}" alt=""></br> {# IMAGE #}
                 {{produit.description|raw }} {# DESCRIPTION #}</br>
                 <a href="{{ path('show', {'id': produit.id}) }}"> Lire la suite </a></br></br>
                 <h3>{{produit.prix|raw }} € </h3>{# PRIX #}

@@ -2,11 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Produit;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Mapping\OrderBy;
 
 /**
  * @method Produit|null find($id, $lockMode = null, $lockVersion = null)
@@ -44,6 +46,34 @@ class ProduitRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    public function getProduitsByUser(User $user)
+    {
+        return $this->createQueryBuilder('produit')
+            ->andWhere('produit.auteur = :id') // on recupère l'author dans l'entité Comments grâce à son :id
+            ->setParameter('id' , $user)
+            ->getQuery()
+            ->getResult();
+    }
+    public function getAllByOrder()
+    {
+        return $this->createQueryBuilder('produit')
+        ->orderBy('produit.nom', 'ASC')  // 'ASC' pour ascendant 'DESC' descendant
+        ->getQuery()
+        ->getResult();
+    }
+    public function getProduitByName($saisie)
+    {
+        return $this->createQueryBuilder('produit')  // met une valeur ramdom
+                    ->andWhere('produit.nom LIKE :saisie' ) // condition de requête  valeur.ce qu'on veut like car il recup ce qui ressemble à la saisie  :saisie = valeur de la saisie
+                    ->setParameter('saisie', '%$saisie%')    // recup saisie   % % pour que le mot saisie soit recherché dans les nom (contenu)
+                    ->orderBy('produit.nom', 'ASC')  // on récup la valeur puis l'ordre dans lequel on rend l'info ASC again 
+                    ->getQuery()
+                    ->getResult();
+    }
+
+
+
 
     // /**
     //  * @return Produit[] Returns an array of Produit objects

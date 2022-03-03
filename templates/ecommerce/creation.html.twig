@@ -1,10 +1,6 @@
 {% extends "base.html.twig" %}
 
 
-
-
-
-
     {% block title %}
 
     Création/Modification
@@ -13,47 +9,68 @@
 
     {% block body %}
 
-    <h1>
+    {% if app.user %}
 
-        {% if editMode %}
-        Modification de l'article
-        {% else %}
-        Création d'un article
-        {% endif %}
+        <h1>
 
-    </h1>
+            {% if editMode %}
+            Modification de l'article
+            {% else %}
+            Création d'un article
+            {% endif %}
 
-    {{ form_start(formProduit) }}
+        </h1>
 
-    {{ form_row(formProduit.nom, {
-        'label': "Titre",
-        'attr':{
-            'placeholder': "Titre du produit"
-        }
-    }) }}
-    {# {{ form_row(formProduit.imageFile) }} #}
-    {{ form_row(formProduit.description, {
-        'label': "Contenu",
-        'attr':{
-            'placeholder': "description du produit"
-        }
-    }) }}
+        {{ form_start(formProduit) }}
 
-    {{ form_row(formProduit.prix) }}
-    {{ form_row(formProduit.categorie) }}
+        {{ form_row(formProduit.nom, {
+            'label': "Titre",
+            'attr':{
+                'placeholder': "Titre du produit"
+            }
+        }) }}
+        {{ form_row(formProduit.imageFile) }} 
+        {{ form_row(formProduit.description, {
+            'label': "Contenu",
+            'attr':{
+                'placeholder': "description du produit"
+            }
+        }) }}
+
+        {{ form_row(formProduit.prix) }}
+        {{ form_row(formProduit.categorie) }}
 
 
-    <button type="submit" class="btn btn-dark mt-2">
+        <button type="submit" class="btn btn-dark mt-2">
 
-        {% if editMode %}
-        Enregistrer les Modification
-        {% else %}
-        Créer un nouvel article
-        {% endif %}
+            {% if editMode %}
+            Enregistrer les Modification
+            {% else %}
+            Créer un nouvel article
+            {% endif %}
 
-    </button>
+        </button>
 
-    {{form_end(formProduit) }}
+        {{form_end(formProduit) }}
+
+    {% else %}
+
+    <div class="row mx-auto" style="width:70%; border:10px solid black; border-radius:5px; margin-top: 15%">
+        <div class="col" style="width:70%; margin: 0 auto;">
+
+            <h2>Vous ne pouvez pas créer de produit sans être inscrit ou connecté!</h2>
+            <hr>
+            <div class="row mx-auto" style="max-width:65%">
+                <a class="btn btn-outline-dark btn-lg btn-block my-3 mx-auto" href="{{ path('app_login') }}">Se connecter</a>
+                <a class="btn btn-outline-dark btn-lg btn-block my-3 mx-auto" href="{{ path('app_register') }}">S'inscrire</a></div>
+            </div>
+        
+        
+        </div>
+    </div>
+
+    {% endif %}
+            
 
 
     {% endblock %}

@@ -6,6 +6,10 @@ use App\Entity\Contact;
 use App\Entity\Produit;
 use App\Form\ContactType;
 use App\Form\ProduitType;
+use App\Entity\Commentaire;
+use App\Form\RechercheType;
+use App\Form\CommentFormType;
+use Doctrine\ORM\EntityManager;
 use App\Repository\ProduitRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Notification\ContactNotification;
@@ -17,13 +21,32 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class EcommerceController extends AbstractController
 {
     #[Route('/produit', name: 'produit')]
-    public function index(ProduitRepository $repo): Response
+    public function index(ProduitRepository $repo, Request $request): Response
     {
-        $produits = $repo->findAll();
+        $form = $this->createForm(RechercheType::class);
+        $form->handleRequest($request);
+        $produits = $repo->getAllByOrder();
+        
+        if($form->isSubmitted() && $form->isValid())        // si le user fait une recherche
+        {
+            $data = $form->get('recherche')->getData();     // je récupère la saisie de l'user
+            $tabArticles = $repo->getProduitByName($data); 
+            // dd($request); la recherche passe bien 
+            if(!$tabArticles)
+            {
+                $this->addFlash('danger',"Recherche infructueuse"); // si la recherche est ko mettre un message 'recherche ko'
+            }
+        }
+        else
+        {
+            $tabArticles = $repo->findAll();           
+        }
         return $this->render('ecommerce/index.html.twig',[
-            'produits' => $produits
+            'produits' => $produits,
+            'RechercheForm' => $form->createView()
         ]);
     }
+
     #[Route('/', name: 'home')]
     public function home(): Response
     {
@@ -51,17 +74,33 @@ class EcommerceController extends AbstractController
             'formContact'=>$form->createView()
         ]);
     }    
+
     #[Route('/produit/{id}', name:'show')]
-    public function show($id)
+    public function show(Produit $produit, Request $request, EntityManagerInterface $manager)
     {
-        $repo = $this->getDoctrine()->getRepository(Produit::class);
+        $commentaire = new Commentaire;
 
-        $produit = $repo->find($id);
+        $form = $this->createForm(CommentFormType::class, $commentaire);
+        $form->handleRequest($request);
 
-        return $this->render('ecommerce/show.html.twig',[
-            'produit' => $produit 
+        if($form->isSubmitted() && $form->isValid())
+    {
+        $commentaire->setCreatedAt(new \DateTime);
+        $commentaire->setProduit($produit);
+        $commentaire->setAuteur($this->getUser());
+        $manager->persist($commentaire);
+        $manager->flush();
+        return $this->redirectToRoute('produit', [
+            'id' => $produit->getId()
         ]);
     }
+
+    return $this->render("ecommerce/show.html.twig", [
+        'formCommentaire' => $form->createView(),
+        'produit' => $produit
+        ]);
+    }
+
     #[Route('/ecommerce/new_produit', name:'new_produit')]
     #[Route('/ecommerce/edit/{id}', name:'edit_produit')]
     public function form(Request $request, EntityManagerInterface $manager, Produit $produit = null)
@@ -77,6 +116,7 @@ class EcommerceController extends AbstractController
 
     if($form->isSubmitted() && $form->isValid())
     {
+       
         $manager->persist($produit);
         $manager->flush();
         return $this->redirectToRoute('produit', [
@@ -87,5 +127,16 @@ class EcommerceController extends AbstractController
         'formProduit' => $form->createView(),
         'editMode' => $produit->getId() !== NULL 
     ]);
+    }
+
+    #[Route('/ecommerce/profil', name:'profil')]
+    public function profil(EntityManagerInterface $manager, ProduitRepository $repo)
+    {
+        $colonnes = $manager->getClassMetadata(Produit::class)->getFieldNames();
+        $produit = $repo->getProduitsByUser($this->getUser());
+        return $this->render('ecommerce/profil.html.twig',[
+            'produit' =>$produit,
+            'colonnes' => $colonnes
+        ]);
     }
 }

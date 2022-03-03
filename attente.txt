@@ -6,3 +6,16 @@
  /**
      * @Vich\UploadableField(mapping="produits_image", fileNameProperty="image")
      */
+
+
+ #[Route('/produit/{id}', name:'show')]
+    public function show($id)
+    {
+        $repo = $this->getDoctrine()->getRepository(Produit::class);
+
+        $produit = $repo->find($id);
+
+        return $this->render('ecommerce/show.html.twig',[
+            'produit' => $produit 
+        ]);
+    }

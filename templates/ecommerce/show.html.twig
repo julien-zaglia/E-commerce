@@ -14,12 +14,69 @@
                 Catégorie: {{ produit.categorie.titre}}</div>
             <hr>
             <div class="content">
-                <img src="{{ asset('images/articles/' ~ produit.image) }}" alt="" class="col-md-12">
+                <img src="{{ asset('images/produits/' ~ produit.image) }}" alt="" class="col-md-12">
                 Description: {{ produit.description|raw}}
                 <h3>{{ produit.prix}}€ </h3>
             </div>
 
         </article>
+
+    </section>
+
+    <section class="col-md-10 mx-auto">
+
+
+    {% for commentaire in produit.commentaires %}
+
+    <div class="comment">
+
+    <div class="row">
+
+    <div class"col-md-3">
+
+            {{ commentaire.auteur.prenom }}
+            {{ commentaire.auteur.nom }}
+            (<small>{{ commentaire.createdAt|date("d/m/Y à H:i:s") }}</small>)
+
+    </div>
+
+    <div class="col-md-9">
+
+        {{ commentaire.contenu|raw }}
+
+    </div>
+
+
+    </div>
+
+    </div> <hr>
+
+    {% endfor %}
+
+    {% if app.user %}
+
+    {{ form_start(formCommentaire) }}
+
+    {{ form_widget(formCommentaire.contenu, {
+        
+        'attr': {
+            'placeholder': "Contenu du commentaire"
+        }
+    }) }}
+
+    <button type="submit" name="Envoyer" class="btn btn-dark mt-2">Envoyer</button>
+
+    {{ form_end(formCommentaire) }}
+    {% else %}
+
+    <div class="col-md-9">
+    <p>Vous ne pouvez laisser de commentaire sans être inscrit ou connecté!</p>
+    <a class="btn btn-primary" href="{{ path('app_register') }}">S'inscrire</a></div>
+    <hr>
+    <a class="btn btn-primary" href="{{ path('app_login') }}">Se connecter</a></div>
+    </div>
+
+    {% endif %}
 
     </section>
 
