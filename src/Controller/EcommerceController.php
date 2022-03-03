@@ -77,7 +77,6 @@ class EcommerceController extends AbstractController
 
     if($form->isSubmitted() && $form->isValid())
     {
-        dd($request);
         $manager->persist($produit);
         $manager->flush();
         return $this->redirectToRoute('produit', [

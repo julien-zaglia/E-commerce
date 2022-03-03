@@ -3,8 +3,6 @@
 
 
 
-{% if app.user %}
-
 
 
     {% block title %}
@@ -33,7 +31,7 @@
             'placeholder': "Titre du produit"
         }
     }) }}
-    {{ form_row(formProduit.imageFile) }}
+    {# {{ form_row(formProduit.imageFile) }} #}
     {{ form_row(formProduit.description, {
         'label': "Contenu",
         'attr':{
@@ -59,9 +57,3 @@
 
 
     {% endblock %}
-
-{% else %}
-    
-    return $this->redirecToRoute
-
-{% endif %}

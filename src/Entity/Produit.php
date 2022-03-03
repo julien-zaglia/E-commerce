@@ -14,7 +14,9 @@ use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
-#[Vich\Uploadable]
+/**
+ * @Vich\Uploadable
+ */
 class Produit
 {
     #[ORM\Id]
@@ -35,11 +37,11 @@ class Produit
     private $prix;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message:"Veuillez ajouter une image")]
     private $image;
 
-    #[Vich\UploadableField(mapping: "produits_image", fileNameProperty: "image")]
-    #[Assert\NotBlank(message:"Veuillez ajouter une image")]
+     /**
+     * @Vich\UploadableField(mapping="produits_images", fileNameProperty="image")
+     */
     private $imageFile;
 
     #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: 'produits')]
@@ -97,7 +99,7 @@ class Produit
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImage():?string
     {
         return $this->image;
     }
@@ -168,12 +170,15 @@ class Produit
         return $this->imageFile; 
     }
          
-          
-        public function setImageFile(?File $imageFile = null): self 
-        {
-        $this->imageFile = $imageFile;
-        return $this; 
-        }
-      
-    }
+    public function setImageFile(?File $imageFile = null): self 
+    {
+    $this->imageFile = $imageFile;
 
+        if($this->imageFile instanceof UploadedFile)
+        {
+            // on met à jour sa date de mise à jour
+            $this->updateAt = new \DateTime();
+        }
+    return $this; 
+    }
+}

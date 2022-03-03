@@ -1,0 +1,8 @@
+/**
+ * @ORM\Entity(repositoryClass=ProduitRepository::class)
+ * @Vich\Uploadable
+ */
+
+ /**
+     * @Vich\UploadableField(mapping="produits_image", fileNameProperty="image")
+     */
