@@ -5,11 +5,6 @@
 {% endblock %}
 
 {% block body %}
-
-   {% for message in app.flashes('success') %} 
-   <div class="alert alert-success">{{ message }}</div>
-
-   {% endfor %}
  
     {{ form_start(formContact) }}
     
@@ -18,7 +13,7 @@
     {{ form_row(formContact.email) }}
     {{ form_row(formContact.contenu) }}
 
-    <button type="submit" class="btn btn-primary">Envoyer</button>
+    <button type="submit" class="btn btn-dark mt-2">Envoyer</button>
 
 
     {{ form_end(formContact) }}

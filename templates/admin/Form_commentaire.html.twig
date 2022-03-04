@@ -1,0 +1,79 @@
+{% extends "base.html.twig" %}
+
+{% block title %}BACKOFFICE | COMMENTAIRES{% endblock title %}
+
+{% block body %}
+
+		<h1 class="text-center mt-3"> {% if editMode %}
+			BACKOFFICE | Modification des commentaires
+		{% else %}
+			BACKOFFICE | Ajouter un nouveau commentaire
+		{% endif %}
+	</h1>
+
+	<!-- Card -->
+	<div
+		class="card mt-4">
+
+		<!-- Card body -->
+		<div class="card-body">
+
+			<p class="h4 text-center py-4">
+				{% if editMode %}
+					Vous pouvez remplir le formulaire afin de modifier les données de ce commentaire.
+				{% else %}
+					Vous pouvez remplir le formulaire afin d'ajouter un nouveau contact
+				{% endif %}
+
+			</p>
+
+			{# ----------------------------------------------------------------------------------------------- #}
+			{# --------------------------------- Méthode avec form_row() ------------------------------------- #}
+
+			{{ form_start(formCommentaire) }}
+			{# form_row() permet d'afficher un champ du formulaire et son label #}
+			{# formCategory est un objet qui contient les champs du formulaire #}
+			{{ form_row(formCommentaire.contenu, 
+                {'label' : "Contenu",'attr' : 
+                        {
+                            'placeholder': "Contenu"
+                        }
+                }) }}
+
+			{{ form_row(formCommentaire.auteur,
+                {'label' : "Auteur"}) 
+            }}
+			{{ form_row(formCommentaire.produit,
+                {'label' : "Produit"}) 
+            }}
+
+
+
+			{# --------------------------- Fin de la Méthode avec form_row()---------------------------------- #}
+			{# ----------------------------------------------------------------------------------------------- #}
+
+				<div class="text-center py-4 mt-3"> <button class="btn btn-dark mt-2" type="submit">
+					{% if editMode %}
+						Enregistrer les modifications
+					{% else %}
+						Ajouter le nouveau contact
+					{% endif %}
+
+                    </div>
+				</button>
+                <div class="text-center">
+				<!-- Button -->
+				<a href="{{ path('app_admin')}}" class="btn btn-dark mt-2">Retour</a>
+                </div>
+			
+
+		</div>
+		<!-- Card body -->
+
+	</div>
+	<!-- Card -->
+
+	{{ form_end(formCommentaire) }}
+
+
+{% endblock body %}

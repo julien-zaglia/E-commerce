@@ -4,52 +4,51 @@
 
 {% block body %}
 
-    <section class="row articles">
+<section class="row articles">
 
-        <article class="col-md-6 mx-auto text-center border border-dark mb-3 p-3 mt-3 mr-1">
+    <article class="col-md-6 mx-auto text-center border border-dark mb-3 p-3 mt-3 mr-1">
 
-            <h2> {{ produit.nom }}</h2>
+        <h2> {{ produit.nom }}</h2>
 
-            <div class="speProduit">
-                Catégorie: {{ produit.categorie.titre}}</div>
-            <hr>
-            <div class="content">
-                <img src="{{ asset('images/produits/' ~ produit.image) }}" alt="" class="col-md-12">
-                Description: {{ produit.description|raw}}
-                <h3>{{ produit.prix}}€ </h3>
-            </div>
+        <div class="speProduit">
+            Catégorie: {{ produit.categorie.titre}}</div>
+        <hr>
+        <div class="content">
+            <img src="{{ asset('images/produits/' ~ produit.image) }}" alt="" class="col-md-12">
+            Description: {{ produit.description|raw}}
+            <h3>{{ produit.prix}}€ </h3>
+        </div>
 
-        </article>
+    </article>
 
-    </section>
+</section>
 
-    <section class="col-md-10 mx-auto">
+<section class="col-md-10 mx-auto">
 
 
     {% for commentaire in produit.commentaires %}
 
     <div class="comment">
 
-    <div class="row">
+        <div class="row">
 
-    <div class"col-md-3">
+            <div class"col-md-3">
 
-            {{ commentaire.auteur.prenom }}
-            {{ commentaire.auteur.nom }}
-            (<small>{{ commentaire.createdAt|date("d/m/Y à H:i:s") }}</small>)
+                (<small>{{ commentaire.createdAt|date("d/m/Y à H:i:s") }}</small>)
+
+            </div>
+
+            <div class="col-md-9">
+
+                {{ commentaire.contenu|raw }}
+
+            </div>
+
+
+        </div>
 
     </div>
-
-    <div class="col-md-9">
-
-        {{ commentaire.contenu|raw }}
-
-    </div>
-
-
-    </div>
-
-    </div> <hr>
+    <hr>
 
     {% endfor %}
 
@@ -70,14 +69,15 @@
     {% else %}
 
     <div class="col-md-9">
-    <p>Vous ne pouvez laisser de commentaire sans être inscrit ou connecté!</p>
-    <a class="btn btn-primary" href="{{ path('app_register') }}">S'inscrire</a></div>
+        <p>Vous ne pouvez laisser de commentaire sans être inscrit ou connecté!</p>
+        <a class="btn btn-primary" href="{{ path('app_register') }}">S'inscrire</a>
+    </div>
     <hr>
     <a class="btn btn-primary" href="{{ path('app_login') }}">Se connecter</a></div>
     </div>
 
     {% endif %}
 
-    </section>
+</section>
 
 {% endblock %}

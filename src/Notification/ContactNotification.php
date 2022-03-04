@@ -33,13 +33,13 @@ class ContactNotification
     ->setFrom($contact->getEmail()) 
     // expéditeur du mail 
 
-    ->setTo("demoblog@mail.com") 
+    ->setTo("zaza@mail.com") 
     // Destinataire du mail
 
     ->setReplyTo($contact->getEmail()) 
     // addresse de réponse du mail 
 
-    ->setBody($this->renderer->render("ecommerce/contact.html.twig", [ // corps du message
+    ->setBody($this->renderer->render("email/contact.html.twig", [ // corps du message
         'contact' => $contact
     ]), 'text/html');
 

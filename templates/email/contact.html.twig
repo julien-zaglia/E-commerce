@@ -1,31 +1,13 @@
-{% extends "base.html.twig" %}
-
-{% block title %}
-
 <table class=" table table-bordered">
 
-
-<tr>
-<td>Prenom</td>
-<td> {{ contact.prenom }}</td>
-</tr>
-<tr>
-<td> {{ contact.nom }}</td>
-</tr>
-<tr>
-<td> {{ contact.contenu }}</td>
-</tr>
+    <tr>
+        <td>Prenom</td>
+        <td> {{ contact.prenom }}</td>
+    </tr>
+    <tr>
+        <td> {{ contact.nom }}</td>
+    </tr>
+    <tr>
+        <td> {{ contact.contenu }}</td>
+    </tr>
 </table>
-{% for message in app.flashes('success') %}
-
-<div class="col-md-5 mx-auto alert-success text-center">
-
-    {{ message }}
-
-</div>
-    
-{% endfor %}
-
-
-
-{% endblock %}

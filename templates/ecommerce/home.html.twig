@@ -9,18 +9,15 @@
     <h1 class="d-flex justify-content-center mt-5" > BIENVENUE SUR RACK CITY SHOP</h1>
     <p class="d-flex justify-content-center mt-2">La mode en mieux</p>
 
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img class="d-block w-100" src="{{ asset('#') }}" alt="First slide">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block w-100" src="{{ asset('#') }}" alt="Second slide">
-        </div>
-        <div class="carousel-item">
-            <img class="d-block w-100" src="{{ asset('#') }}" alt="Third slide">
-        </div>
-    </div>
+    <div class="row mx-auto" style="width:70%; border:10px solid black; border-radius:5px; margin-top: 15%">
+        <div class="col" style="width:70%; margin: 0 auto;">
+
+            <h2>Afin de pouvoir utiliser pleinement toutes les fonctionnalités, Veuillez vous inscrire ou vous connecter</h2>
+            <hr>
+            <div class="row mx-auto" style="max-width:65%">
+                <a class="btn btn-outline-dark btn-lg btn-block my-3 mx-auto" href="{{ path('app_login') }}">Se connecter</a>
+                <a class="btn btn-outline-dark btn-lg btn-block my-3 mx-auto" href="{{ path('app_register') }}">S'inscrire</a></div>
+            </div>
 </div>
 
 

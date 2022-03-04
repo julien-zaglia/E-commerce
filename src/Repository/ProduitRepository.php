@@ -66,7 +66,7 @@ class ProduitRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('produit')  // met une valeur ramdom
                     ->andWhere('produit.nom LIKE :saisie' ) // condition de requête  valeur.ce qu'on veut like car il recup ce qui ressemble à la saisie  :saisie = valeur de la saisie
-                    ->setParameter('saisie', '%$saisie%')    // recup saisie   % % pour que le mot saisie soit recherché dans les nom (contenu)
+                    ->setParameter('saisie', "%$saisie%")    // recup saisie   % % pour que le mot saisie soit recherché dans les nom (contenu)
                     ->orderBy('produit.nom', 'ASC')  // on récup la valeur puis l'ordre dans lequel on rend l'info ASC again 
                     ->getQuery()
                     ->getResult();

@@ -1,0 +1,56 @@
+{% extends "base.html.twig" %}  
+
+{% block title %} Formulaire {% endblock %}   
+
+
+{% block body %}
+
+    <h1>
+        {% if editMode %}
+        Modification du produit
+        {% else %}
+        Création du produit
+        {% endif %}
+    </h1>
+
+    {{form_start(formProduit)}}
+
+        {{form_row(formProduit.nom, {
+            label : "Nom",
+            attr : {
+                placeholder : "Nom du produit"
+            }
+        })}}
+        {{form_row(formProduit.description, {
+            label : "Description",
+            attr : {
+                placeholder : "Description du produit"
+            }
+        })}}
+        {{form_row(formProduit.prix, {
+            label : "Prix",
+            attr : {
+                placeholder : "Prix du produit"
+            }
+        })}}
+        {{form_row(formProduit.imageFile, {
+            label : "Image du produit"
+        })}}
+
+        {{form_row(formProduit.categorie, {
+            label : "Catégorie"
+        })}}
+
+        <button type="submit" class="btn btn-primary mt-2">
+        {% if editMode %}
+            Enregistrer les modifications
+        {% else %}
+            Créer un nouveau produit
+        {% endif %}
+        </button>
+
+
+    {{form_end(formProduit)}}
+
+
+{% endblock %}

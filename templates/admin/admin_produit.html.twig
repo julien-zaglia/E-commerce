@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% block title %}gestion des produits{% endblock %}
+
+{% block body %}
+
+<a href="{{ path('admin_new_produit')}} " class="btn btn-success mb-3 mt-3">Ajouter un produit </a>
+
+<table class="table table-bordered text-center">
+
+    <thead>
+        <tr>
+            {% for colonne in colonnes %}
+            <th>{{ colonne }}</th>
+            {% endfor %}
+            <th>Catégorie</th>
+            <th>Editer</th>
+            <th>Supprimer</th>
+        </tr>
+    </thead>
+    {# le titre des colonnes du tableau sera le nom des champs de l'entity produit #}
+
+    <tbody>
+        {% for produit in produits %}
+        <tr>
+            <td>{{ produit.id }}</td>
+            <td>{{ produit.nom}}</td>
+            <td>{{ produit.description}}</td>
+            <td>{{ produit.prix}} €</td>
+            <td><img src="{{ asset('images/produits/' ~ produit.image)}}" style="width: 150px"></td>
+            <td>{{ produit.categorie.titre }}
+            </td>
+            <td>
+                <a href="{{ path('admin_edit_produit', {id : produit.id}) }} " class="btn btn-warning text-dark">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </td>
+            <td>
+                <a href="{{ path('delete_produit', {id : produit.id}) }} " class="btn btn-danger text-dark">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </td>
+            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

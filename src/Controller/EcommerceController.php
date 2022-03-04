@@ -25,24 +25,24 @@ class EcommerceController extends AbstractController
     {
         $form = $this->createForm(RechercheType::class);
         $form->handleRequest($request);
-        $produits = $repo->getAllByOrder();
+       
         
         if($form->isSubmitted() && $form->isValid())        // si le user fait une recherche
         {
             $data = $form->get('recherche')->getData();     // je récupère la saisie de l'user
-            $tabArticles = $repo->getProduitByName($data); 
+            $produit = $repo->getProduitByName($data); 
             // dd($request); la recherche passe bien 
-            if(!$tabArticles)
+            if(!$produit)
             {
                 $this->addFlash('danger',"Recherche infructueuse"); // si la recherche est ko mettre un message 'recherche ko'
             }
         }
         else
         {
-            $tabArticles = $repo->findAll();           
+            $produit = $repo->getAllByOrder();         
         }
         return $this->render('ecommerce/index.html.twig',[
-            'produits' => $produits,
+            'produits' => $produit,
             'RechercheForm' => $form->createView()
         ]);
     }
@@ -57,17 +57,22 @@ class EcommerceController extends AbstractController
     {
         $contact = new Contact();
 
+        $contact->setCreatedAt(new \DateTime);
+
         $form = $this->createForm(ContactType::class, $contact);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
-            $notification->notify($contact);// utilisation de la class ContactNotification
+           
             $this->addFlash('success', 'Votre Email a bien été envoyé');
 
             $manager->persist($contact);    // On prépare l'insertion 
             $manager->flush();              // On execute l'insertion 
+            $notification->notify($contact);
+            return $this->redirectToRoute('produit');
+           
         }
         return $this->render("ecommerce/contact.html.twig",[
 

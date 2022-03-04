@@ -1,0 +1,93 @@
+{% extends "base.html.twig" %}
+
+{% block title %}BACKOFFICE | UTILISATEURS{% endblock title %}
+
+{% block body %}
+
+		<h1 class="text-center mt-3"> {% if editMode %}
+			BACKOFFICE | Modification des données de l'utilisateur
+		{% else %}
+			BACKOFFICE | Ajouter un nouvel utilisateur
+		{% endif %}
+	</h1>
+
+	<!-- Card -->
+	<div
+		class="card mt-4">
+
+		<!-- Card body -->
+		<div class="card-body">
+
+			<p class="h4 text-center py-4">
+				{% if editMode %}
+					Vous pouvez remplir le formulaire afin de modifier les données de cet utilisateur.
+				{% else %}
+					Vous pouvez remplir le formulaire afin d'ajouter un nouvel utilisateur
+				{% endif %}
+
+			</p>
+
+			{# ----------------------------------------------------------------------------------------------- #}
+			{# --------------------------------- Méthode avec form_row() ------------------------------------- #}
+
+			{{ form_start(formUser) }}
+			{# form_row() permet d'afficher un champ du formulaire et son label #}
+			{# formCategory est un objet qui contient les champs du formulaire #}
+            {{ form_row(formUser.email,
+                {
+                'label' : "Email",
+                'attr' : 
+                        {
+                            'placeholder': "Email"
+                        }
+                }) 
+            }}
+
+			{{ form_row(formUser.roles, 
+                {
+                'label' : "Roles",
+                'attr' : 
+                        {
+                            'placeholder': "Roles"
+                        }
+                }) 
+            }}
+
+            {{ form_row(formUser.plainPassword, 
+                {
+                'label' : "Mot de passe",
+                'attr' : 
+                        {
+                            'placeholder': "Mot de passe"
+                        }
+                }) 
+            }}
+
+			{# --------------------------- Fin de la Méthode avec form_row()---------------------------------- #}
+			{# ----------------------------------------------------------------------------------------------- #}
+
+				<div class="text-center py-4 mt-3"> <button class="btn btn-dark" type="submit">
+					{% if editMode %}
+						Enregistrer les modifications
+					{% else %}
+						Ajouter le nouvel utilisateur
+					{% endif %}
+
+                </div>
+				</button>
+                <div class="text-center">
+				<!-- Button -->
+				<a href="{{ path('app_admin')}}" class="btn btn-dark">Retour</a>
+                </div>
+			
+
+		</div>
+		<!-- Card body -->
+
+	</div>
+	<!-- Card -->
+
+	{{ form_end(formUser) }}
+
+
+{% endblock body %}

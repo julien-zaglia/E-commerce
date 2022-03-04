@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des commentaires
+{% endblock title %}
+
+
+{% block body %}
+
+{% for message in app.flashes("success") %}
+<div class="text-center alert alert-success mt-3">{{ message }}</div> 
+    
+ {% endfor %}
+
+ {% for message in app.flashes("error") %}
+<div class="text-center alert alert-danger mt-3">{{ message }}</div> 
+    
+ {% endfor %}
+
+<a class="btn btn-success mt-3 mb-3" href="{{ path('admin_new_commentaire')}}">Ajouter un commentaire</a>
+	<!-- Table -->
+	<div
+		class="card card-cascade narrower mt-5">
+
+		<div class="view view-cascade gradient-card-header blue-gradient narrower py-2 mx-4 mb-3">
+			<h3 href="" class="white-text mx-3">Gestion des commentaires</h3>
+		</div>
+
+		<div class="px-2">
+
+			<div
+				class="table-wrapper">
+				<!--Table-->
+				<table
+					class="table table-hover mb-0">
+
+					<!--Table head-->
+					<thead>
+						<tr>
+                        {# le titre des colonnes du tableau sera le nom des champs de l'entity Article #}
+                        {% for colonne in colonnes %}
+
+                            <th class="th-lg">
+								<h5>{{ colonne }} </h5>
+							</th>
+                        {% endfor %}
+
+							  <th class="th-lg">
+								<h5>Titre</h5>
+							</th>
+							
+                            <th class="th-lg">
+								<h5>Editer</h5>
+							</th>
+
+                             <th class="th-lg">
+								<h5>Supprimer</h5>
+							</th>
+            </tr>
+		</thead>
+		<!--Table head-->
+
+
+    {% for commentaire in commentaire %}
+		<!--Table body-->
+		<tbody>
+    
+			<tr>
+                <td>{{ commentaire.id }}</td>
+               {# <td>{{ commentaire.produit.auteur_id}}</td> #}
+				<td>{{ commentaire.contenu }}</td>
+                <td>{{ commentaire.createdAt|date("d:m:Y à H:i:s") }}</td>
+				<td>{{ commentaire.produit.nom }}</td>
+                
+                {# <td>{{ comment.updateAt|date("d:m:Y à H:i:s") }}</td> #}
+                    {# bouton de modification #}
+                    <td>
+                    	<a type="submit" class="btn btn-outline-warning btn-rounded btn-sm px-2" href="{{ path('admin_edit_commentaire', {'id': commentaire.id}) }}">
+                            <i class="fas fa-edit"></i>
+						</a>
+                    </td>
+                    {# bouton de suppression #}
+                     <td>
+                    	<a type="submit" class="btn btn-outline-danger btn-rounded btn-sm px-2" href="{{ path('delete_commentaire', {'id': commentaire.id}) }}">
+                            <i class="fas fa-trash-alt"></i>
+						</a>
+                    </td>
+			</tr>
+		</tbody>
+    {# fin de la boucle for #}
+    {% endfor %}
+		        <!--Table body-->
+	        </table>
+	        <!--Table-->
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock body %}

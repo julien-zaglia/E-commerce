@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BackOffice{% endblock %}
+
+{% block body %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <h1 class="display-4 text-center my-4">BACKOFFICE</h1>
+
+        <p class="text-center">Bienvenue sur votre Backoffice</p>
+
+        <a href=" {{ path('admin_produit')}}" class="col-md-6 offset-md-3 btn btn-dark mb-2">GESTION DES PRODUITS</a>
+        <a href="{{ path('admin_categorie')}}" class="col-md-6 offset-md-3 btn btn-info mb-2">GESTION DES CATEGORIES</a>
+        <a href="{{ path('admin_users')}}" class="col-md-6 offset-md-3 btn btn-primary mb-2">GESTION DES MEMBRES</a>
+        <a href="{{ path('admin_commentaire')}}" class="col-md-6 offset-md-3 btn btn-warning mb-2">GESTION DES COMMENTAIRES</a>
+
+    {% else %}
+        
+        <h1>Vous n'êtes pas autorisé à être ici</h1>
+    
+    {% endif %}
+
+
+
+{% endblock %}
